@@ -3,7 +3,48 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.pi
 
 from Objetos.Alumnos import Alumnos
+from Objetos.RelacionEntreClases import Pais
+from Objetos.RelacionEntreClases import Ciudad
 from Objetos.Persona import Personas
+from Cuentas.Cuenta import Cuenta
+
+print("\n DATOS DE LA CUENTA 1")
+cuenta1 = Cuenta("123456", "Juan Perez", 100000, 1000000)
+
+print("\n")
+cuenta1.extracto()
+cuenta1.deposita(int(input("ingrese la cantidad a depositar: ")))
+print("\n")
+cuenta1.extracto()
+print("\n")
+cuenta1.retiro(int(input("ingrese la cantidad a retirar: ")))
+cuenta1.extracto()
+
+
+print("\n DATOS DE LA CUENTA 2")
+
+cuenta2 = Cuenta("456789", "Maria Gomez", 50000, 2000000)
+print("\n")
+cuenta2.extracto()
+cuenta2.deposita(int(input("ingrese la cantidad a depositar: ")))
+print("\n")
+cuenta2.extracto()
+print("\n")
+cuenta2.retiro(int(input("ingrese la cantidad a retirar: ")))
+print("\n")
+cuenta2.extracto()
+
+
+"""
+RELACION ENTRE CLASES
+
+pais1 = Pais("Paraguay", "Marito")
+print(pais1)
+
+ciudad1 = Ciudad("Asuncion", 250000, pais1)
+print(ciudad1)
+"""
+
 
 
 """ Prácticas con Personas """
@@ -25,7 +66,7 @@ from Objetos.Persona import Personas
 
 
 """ Prácticas con Alumnos """
-def practicasAlumnos():
+"""def practicasAlumnos():
 
     alumnos = Alumnos("Maria", "Gonzalez", 20)
     alumnos.setNombre(input("Ingrese el nombre: "))
@@ -33,4 +74,4 @@ def practicasAlumnos():
     alumnos.setEdad(input("Ingrese su edad: "))
     print(f"Bienvenido {alumnos.getNombre()} {alumnos.getApellido()}, usted tiene {alumnos.getEdad()}")
 
-practicasAlumnos()
+practicasAlumnos()"""

@@ -8,7 +8,7 @@ class Personas:
         self.__Apellido = apellido
         self.__Edad = edad
 
-    def __int__(self, edad):
+    def __init__(self, edad):
         self.__Edad = edad
 
     def setNombre(self, nombre):
