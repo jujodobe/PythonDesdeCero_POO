@@ -1,6 +1,7 @@
 class Cuenta:
 
-    def __init__(self, numero, titular, saldo, limiteSaldo):
+    def __init__(self, id, numero, titular, saldo, limiteSaldo):
+        self.__id = id
         self.__Numero = numero
         self.__Titular = titular
         self.__Saldo = saldo
@@ -29,6 +30,12 @@ class Cuenta:
 
     def setLimite(self, limiteSaldo):
         self.__LimiteSaldo = limiteSaldo
+
+    def getId(self):
+        return self.__id
+
+    def setId(self, id):
+        self.__id = id
 
     def extracto(self):
         print("EXTRACTO DE LA CUENTA")

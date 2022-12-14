@@ -1,4 +1,6 @@
 import sqlite3
+from DAO_Cuentas import DAO_Cuenta
+from Cuenta import Cuenta
 
 conexion = sqlite3.connect('cuenta.db')
 
@@ -11,41 +13,21 @@ crear_tabla_cuenta = '''
         "limiteSaldo"	INTEGER NOT NULL
     );'''
 
+
+CREAR_TABLA_USUARIO = '''
+    CREATE TABLE IF NOT EXISTS usuario(
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        "nombre" TEXT NOT NULL UNIQUE,
+        "clave" TEXT NOT NULL);
+        '''
+
 cursor = conexion.cursor()
 
 cursor.execute(crear_tabla_cuenta)
-
-
-def insertarDatos(numero, titular, saldo, limiteSaldo):
-    insertar = f'''INSERT INTO cuenta(numero, titular, saldo, limiteSaldo) 
-                               values('{numero}','{titular}',{saldo},{limiteSaldo})'''
-    cursor.execute(insertar)
-    conexion.commit()
-
-def modificarDatos(numero, titular,saldo, limiteSaldo, id):
-    modificar = f'''UPDATE cuenta 
-                    SET numero='{numero}', 
-                        titular='{titular}',
-                        saldo={saldo},
-                        limiteSaldo={limiteSaldo} 
-                    WHERE id = {id}'''
-    cursor.execute(modificar)
-    conexion.commit()
-
-def eliminarRegistro(id):
-    cursor.execute(f"DELETE FROM cuenta WHERE id = {id}")
-    conexion.commit()
-
-def listarDatos():
-    cursor.execute("SELECT * FROM cuenta")
-    return cursor.fetchall()
-
-def consultarRegistro(id):
-    cursor.execute(f"SELECT * FROM cuenta WHERE id = {id}")
-    return cursor.fetchone()
-
+cursor.close()
 
 def ejecutar():
+    daoCuenta = DAO_Cuenta(conexion)
     opcion = int(input('''Operaciones realizar
     1- Insertar 
     2- Modificar 
@@ -54,16 +36,29 @@ def ejecutar():
     5- Listar Registros
     Ingrese la opcion: '''))
 
-    if opcion == 1:
-        insertarDatos("456123", "Mariano Gonzalez", 20000, 1000000)
-    if opcion == 2:
-        modificarDatos("789456", "Maria Gomez", 200000, 1000000)
-    if opcion == 3:
-        eliminarRegistro(3)
-    if opcion == 4:
-        print(consultarRegistro(3))
-    if opcion == 5:
-        print(listarDatos())
 
-#print(modificarDatos("112233", "Julio Miranda", 500000, 2000000, 4))
+
+    if opcion == 1:
+        cuenta = inicializarNuevaCuenta()
+        cuentaGuardada = daoCuenta.guardar(cuenta)
+        print(cuentaGuardada.getId())
+
+
+
+
+
+
+
+
+
+
+def inicializarNuevaCuenta():
+    numero = input("Ingrese el número de cuenta: ")
+    titular = input("Ingrese el titular de la cuenta: ")
+    saldo = int(input("Ingrese el saldo de la cuenta"))
+    limiteSaldo = int(input("Ingrese el límite del saldo"))
+    return Cuenta(0, numero, titular, saldo, limiteSaldo)
+
+
+# print(modificarDatos("112233", "Julio Miranda", 500000, 2000000, 4))
 ejecutar()
