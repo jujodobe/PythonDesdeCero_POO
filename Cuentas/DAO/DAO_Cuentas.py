@@ -1,12 +1,14 @@
 from Cuentas.Models.Cuenta import Cuenta
+from Cuentas.DAO.DAO_Usuario import DAO_Usuario
 
 import sqlite3
 
+
+
 class DAO_Cuenta:
 
-    def __init__(self, dao_usuario, conexionDB = sqlite3.connect("cuenta.db")):
+    def __init__(self, conexionDB):
         self.__conexionDB = conexionDB
-        self.__DAO_usuario = dao_usuario
 
     def guardar(self, cuenta):
 
@@ -15,10 +17,10 @@ class DAO_Cuenta:
                                             titular = ?,
                                             saldo = ?,
                                             limiteSaldo = ?, 
-                                            id_usuario = ?
+                                            usuario_id = ?
                                    WHERE id = {cuenta.getId()} '''
 
-        SQL_INSERTA_CUENTA = f'''INSERT INTO cuenta(numero, titular, saldo, limiteSaldo, id_usuario) values(?, ?, ?, ?, ?)'''
+        SQL_INSERTA_CUENTA = f'''INSERT INTO cuenta(numero, titular, saldo, limiteSaldo, usuario_id) values(?, ?, ?, ?, ?)'''
 
         cursor = self.__conexionDB.cursor() # Abrir cursor para escribir sentencias SQL
 
@@ -50,8 +52,8 @@ class DAO_Cuenta:
         cursor = self.__conexionDB.cursor()
         cursor.execute(f"select * from cuenta where id = {id}")
         tupla = cursor.fetchone()
-        DAO_Usuario = self.__DAO_usuario()
-        usuario = DAO_Usuario.consultarPorId(tupla[5])
+        daoUsuario = DAO_Usuario()
+        usuario = daoUsuario.consultarPorId(tupla[5])
         cursor.close()
         return Cuenta(tupla[0], tupla[1], tupla[2], tupla[3], tupla[4], usuario)
 
