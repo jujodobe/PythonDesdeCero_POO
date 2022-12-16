@@ -50,6 +50,7 @@ class DAO_Cuenta:
         self.__conexionDB.commit()
         cursor.close()
 
+
 def traduce_cuentas(cuentas):
     def crea_cuenta_con_tupla(tupla):
         return Cuenta(tupla[0], tupla[1], tupla[2], tupla[3], tupla[4])
