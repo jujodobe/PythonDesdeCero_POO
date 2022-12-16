@@ -1,18 +1,8 @@
 import sqlite3
-from DAO_Cuentas import DAO_Cuenta
-from Cuenta import Cuenta
+from Cuentas.DAO.DAO_Cuentas import DAO_Cuenta
+from Cuentas.Models.Cuenta import Cuenta
 
-conexion = sqlite3.connect('cuenta.db')
-
-crear_tabla_cuenta = ''' 
-    CREATE TABLE IF NOT EXISTS cuenta(
-        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        "numero"	TEXT NOT NULL,
-        "titular"	TEXT NOT NULL,
-        "saldo"	INTEGER NOT NULL,
-        "limiteSaldo"	INTEGER NOT NULL
-    );'''
-
+conexion = sqlite3.connect('DAO/cuenta.db')
 
 CREAR_TABLA_USUARIO = '''
     CREATE TABLE IF NOT EXISTS usuario(
@@ -21,8 +11,21 @@ CREAR_TABLA_USUARIO = '''
         "clave" TEXT NOT NULL);
         '''
 
-cursor = conexion.cursor()
+crear_tabla_cuenta = ''' 
+    CREATE TABLE IF NOT EXISTS cuenta(
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        "numero"	TEXT NOT NULL,
+        "titular"	TEXT NOT NULL,
+        "saldo"	INTEGER NOT NULL,
+        "limiteSaldo"	INTEGER NOT NULL,
+        "usuario_id" INTEGER NOT NULL,
+        FOREIGN KEY (usuario_id) REFERENCES usuario (id)
+    );'''
 
+
+
+cursor = conexion.cursor()
+cursor.execute(CREAR_TABLA_USUARIO)
 cursor.execute(crear_tabla_cuenta)
 cursor.close()
 

@@ -1,11 +1,12 @@
-from Cuenta import Cuenta
-import sqlite3
+from Cuentas.Models.Cuenta import Cuenta
 
+import sqlite3
 
 class DAO_Cuenta:
 
-    def __init__(self, conexionDB = sqlite3.connect("Cuenta.py")):
+    def __init__(self, dao_usuario, conexionDB = sqlite3.connect("cuenta.db")):
         self.__conexionDB = conexionDB
+        self.__DAO_usuario = dao_usuario
 
     def guardar(self, cuenta):
 
@@ -13,17 +14,26 @@ class DAO_Cuenta:
                                             SET numero = ?,
                                             titular = ?,
                                             saldo = ?,
-                                            limiteSaldo = ? 
+                                            limiteSaldo = ?, 
+                                            id_usuario = ?
                                    WHERE id = {cuenta.getId()} '''
 
-        SQL_INSERTA_CUENTA = f'''INSERT INTO cuenta(numero, titular, saldo, limiteSaldo) values(?, ?, ?, ?)'''
+        SQL_INSERTA_CUENTA = f'''INSERT INTO cuenta(numero, titular, saldo, limiteSaldo, id_usuario) values(?, ?, ?, ?, ?)'''
 
         cursor = self.__conexionDB.cursor() # Abrir cursor para escribir sentencias SQL
 
         if(cuenta.getId() != 0):
-            cursor.execute(SQL_ACTUALIZA_CUENTA, (cuenta.getNumero(), cuenta.getTitular(), cuenta.getSaldo(), cuenta.getLimite()))
+            cursor.execute(SQL_ACTUALIZA_CUENTA, (cuenta.getNumero(),
+                                                  cuenta.getTitular(),
+                                                  cuenta.getSaldo(),
+                                                  cuenta.getLimite(),
+                                                  Cuenta.getUsuario().getId()))
         else:
-            cursor.execute(SQL_INSERTA_CUENTA, (cuenta.getNumero(), cuenta.getTitular(), cuenta.getSaldo(), cuenta.getLimite()))
+            cursor.execute(SQL_INSERTA_CUENTA, (cuenta.getNumero(),
+                                                cuenta.getTitular(),
+                                                cuenta.getSaldo(),
+                                                cuenta.getLimite(),
+                                                cuenta.getUsuario().getId()))
             cuenta.setId(cursor.lastrowid)
         self.__conexionDB.commit()
         cursor.close()
@@ -40,8 +50,10 @@ class DAO_Cuenta:
         cursor = self.__conexionDB.cursor()
         cursor.execute(f"select * from cuenta where id = {id}")
         tupla = cursor.fetchone()
+        DAO_Usuario = self.__DAO_usuario()
+        usuario = DAO_Usuario.consultarPorId(tupla[5])
         cursor.close()
-        return Cuenta(tupla[0], tupla[1], tupla[2], tupla[3], tupla[4])
+        return Cuenta(tupla[0], tupla[1], tupla[2], tupla[3], tupla[4], usuario)
 
 
     def eliminar(self, id):

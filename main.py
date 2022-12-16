@@ -2,11 +2,7 @@
 # Press Mayús+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.pi
 
-from Objetos.Alumnos import Alumnos
-from Objetos.RelacionEntreClases import Pais
-from Objetos.RelacionEntreClases import Ciudad
-from Objetos.Persona import Personas
-from Cuentas.Cuenta import Cuenta
+from Cuentas.Models.Cuenta import Cuenta
 
 cuenta1 = Cuenta("123456", "Juan Perez", 100000, 1000000)
 cuenta2 = Cuenta("456789", "Maria Gomez", 50000, 2000000)

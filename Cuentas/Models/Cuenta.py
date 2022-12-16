@@ -1,11 +1,14 @@
+from Cuentas.Models.usuario import Usuario
+
 class Cuenta:
 
-    def __init__(self, id, numero, titular, saldo, limiteSaldo):
+    def __init__(self, id = 0, numero = "", titular = "", saldo = 0, limiteSaldo = 0, usuario = Usuario()):
         self.__id = id
         self.__Numero = numero
         self.__Titular = titular
         self.__Saldo = saldo
         self.__LimiteSaldo = limiteSaldo
+        self.__usuario = usuario
 
     def getNumero(self):
         return self.__Numero
@@ -36,6 +39,12 @@ class Cuenta:
 
     def setId(self, id):
         self.__id = id
+
+    def getUsuario(self):
+        return self.__usuario
+
+    def setUsuario(self, usuario):
+        self.__usuario = usuario
 
     def extracto(self):
         print("EXTRACTO DE LA CUENTA")
