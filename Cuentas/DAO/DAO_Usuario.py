@@ -12,3 +12,6 @@ class DAO_Usuario:
         tupla = cursor.fetchone()
         usuario = Usuario(tupla[0], tupla[1], tupla[2])
         return usuario
+    
+    def crearNuevoUsuario(self, usuario):
+        return usuario.getId()
